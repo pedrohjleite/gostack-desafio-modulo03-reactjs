@@ -35,19 +35,21 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
-      api.get('transactions').then((response) => {
-        const { balance, transactions } = response.data
+      api.get('transactions').then(response => {
+        const { balance, transactions } = response.data;
         setTransactions(transactions as Transaction[]);
         setBalance(balance);
       });
-
     }
 
     loadTransactions();
   }, []);
 
   function handleFormat(value: number): string {
-   return Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+    return Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
   }
 
   return (
@@ -61,14 +63,18 @@ const Dashboard: React.FC = () => {
                 <p>Entradas</p>
                 <img src={income} alt="Income" />
               </header>
-              <h1 data-testid="balance-income">{handleFormat(balance.income)}</h1>
+              <h1 data-testid="balance-income">
+                {handleFormat(balance.income)}
+              </h1>
             </Card>
             <Card>
               <header>
                 <p>Saídas</p>
                 <img src={outcome} alt="Outcome" />
               </header>
-              <h1 data-testid="balance-outcome">{handleFormat(balance.outcome)}</h1>
+              <h1 data-testid="balance-outcome">
+                {handleFormat(balance.outcome)}
+              </h1>
             </Card>
             <Card total>
               <header>
@@ -77,7 +83,8 @@ const Dashboard: React.FC = () => {
               </header>
               <h1 data-testid="balance-total">{handleFormat(balance.total)}</h1>
             </Card>
-          </CardContainer>)}
+          </CardContainer>
+        )}
 
         <TableContainer>
           <table>
@@ -91,10 +98,13 @@ const Dashboard: React.FC = () => {
             </thead>
 
             <tbody>
-              {transactions.map((transaction) => (
+              {transactions.map(transaction => (
                 <tr key={transaction.id}>
                   <td className="title">{transaction.title}</td>
-                  <td className={transaction.type}>{transaction.type === 'income' ? '' : ' - '}{handleFormat(transaction.value)}</td>
+                  <td className={transaction.type}>
+                    {transaction.type === 'income' ? '' : ' - '}
+                    {handleFormat(transaction.value)}
+                  </td>
                   <td>{transaction.category.title}</td>
                   <td>{transaction.created_at}</td>
                 </tr>
