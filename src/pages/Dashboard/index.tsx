@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import income from '../../assets/income.svg';
 import outcome from '../../assets/outcome.svg';
 import total from '../../assets/total.svg';
+import formatValue from '../../utils/formatValue';
 
 import api from '../../services/api';
 
@@ -43,13 +44,6 @@ const Dashboard: React.FC = () => {
     loadTransactions();
   }, []);
 
-  function handleFormat(value: number): string {
-    return Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
-  }
-
   return (
     <>
       <Header />
@@ -62,7 +56,7 @@ const Dashboard: React.FC = () => {
                 <img src={income} alt="Income" />
               </header>
               <h1 data-testid="balance-income">
-                {handleFormat(balance.income)}
+                {formatValue(balance.income)}
               </h1>
             </Card>
             <Card>
@@ -71,7 +65,7 @@ const Dashboard: React.FC = () => {
                 <img src={outcome} alt="Outcome" />
               </header>
               <h1 data-testid="balance-outcome">
-                {handleFormat(balance.outcome)}
+                {formatValue(balance.outcome)}
               </h1>
             </Card>
             <Card total>
@@ -79,7 +73,7 @@ const Dashboard: React.FC = () => {
                 <p>Total</p>
                 <img src={total} alt="Total" />
               </header>
-              <h1 data-testid="balance-total">{handleFormat(balance.total)}</h1>
+              <h1 data-testid="balance-total">{formatValue(balance.total)}</h1>
             </Card>
           </CardContainer>
         )}
@@ -101,7 +95,7 @@ const Dashboard: React.FC = () => {
                   <td className="title">{transaction.title}</td>
                   <td className={transaction.type}>
                     {transaction.type === 'income' ? '' : ' - '}
-                    {handleFormat(transaction.value)}
+                    {formatValue(transaction.value)}
                   </td>
                   <td>{transaction.category.title}</td>
                   <td>{transaction.created_at}</td>
